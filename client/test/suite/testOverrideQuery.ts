@@ -1,6 +1,6 @@
 export function testOverrideQueryWithGoodJSON(): string {
     return `
-/* mlxprs:settings
+/* mllggr:settings
 
   {
     "host": "overrideHost",
@@ -17,7 +17,7 @@ cts.doc(cts.uris().toArray()[12 + 19])
 
 export function testOverrideQueryWithBadJSON(): string {
     return `
-/* mlxprs:settings
+/* mllggr:settings
 
   {
     "host": 'overrideHost',
@@ -51,7 +51,7 @@ cts.doc(cts.uris().toArray()[12 + 19])
 
 export function testOverrideXQueryWithGoodJSON(): string {
     return `
-(: mlxprs:settings
+(: mllggr:settings
 
   {
     "host": "overrideHost",
@@ -68,7 +68,7 @@ cts:doc(cts:uris()[12 + 19])
 export function testOverrideXQueryWithBadJSON(): string {
     return `
 
-(: mlxprs:settings
+(: mllggr:settings
 
   {
     "host": 'overrideHost',
@@ -102,7 +102,7 @@ cts.doc(cts.uris().toArray()[12 + 19])
 
 export function testOverrideSslParams(): string {
     return `
-/* mlxprs:settings
+/* mllggr:settings
 {
     "host": "127.0.0.1",
     "ssl": true,

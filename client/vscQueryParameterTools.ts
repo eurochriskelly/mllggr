@@ -9,7 +9,7 @@ import * as esprima from 'esprima'
  * The comment must have the following requirements:
  *
  * - Block comment as the very first language element in the query
- * - the first line of the block comment must include the string 'mlxprs:settings'
+ * - the first line of the block comment must include the string 'mllggr:settings'
  * - the rest of the comment must be a valid JSON object
  * - the keys of the JSON object are the client parameters you wish to override
  *

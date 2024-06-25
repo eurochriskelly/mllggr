@@ -5,7 +5,7 @@ import {
     createConnection, IConnection,
     TextDocuments,
     TextDocumentPositionParams,
-    CompletionItem, CompletionItemKind, InitializeParams, InitializeResult,
+    CompletionItem, CompletionItemKind, InitializeResult,
     TextDocumentSyncKind
 } from 'vscode-languageserver'
 import { TextDocument } from 'vscode-languageserver-textdocument'

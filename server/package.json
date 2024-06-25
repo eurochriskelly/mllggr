@@ -1,10 +1,10 @@
 {
-  "name": "mlxprs-languageserver",
-  "displayName": "mlxprs-languageserver",
+  "name": "mllggr-languageserver",
+  "displayName": "mllggr-languageserver",
   "description": "Language Server for XQuery and SJS",
   "version": "0.6.0",
-  "publisher": "mlxprs",
-  "repository": "https://github.com/mikrovvelle/mlxprs",
+  "publisher": "mllggr",
+  "repository": "https://github.com/mikrovvelle/mllggr",
   "license": "Apache-2.0",
   "engines": {
     "vscode": "^1.50.0"

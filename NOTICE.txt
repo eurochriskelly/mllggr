@@ -1,4 +1,4 @@
-MarkLogic® Visual Studio Code extension (mlxprs)
+MarkLogic® Visual Studio Code extension (mllggr)
 
 Copyright © 2019 MarkLogic Corporation.
 

@@ -1,13 +1,14 @@
 {
-    "name": "mlxprs",
-    "displayName": "MarkLogic developer tools",
-    "description": "MarkLogic JavaScript and XQuery development tools",
-    "version": "3.5.1",
-    "publisher": "mlxprs",
+    "name": "mllggr",
+    "displayName": "MarkLogic logger",
+    "description": "ml logger",
+    "version": "0.0.1",
+    "publisher": "marklogic",
     "engines": {
-        "vscode": "^1.50.0"
+        "vscode": "^1.50.0",
+        "node": "16.x"
     },
-    "icon": "images/mlxprs-vscode.png",
+    "icon": "images/mllggr-vscode.png",
     "galleryBanner": {
         "color": "#1D252D",
         "theme": "dark"
@@ -18,7 +19,7 @@
         "Snippets",
         "Other"
     ],
-    "repository": "https://github.com/marklogic-community/mlxprs",
+    "repository": "https://github.com/eurochriskelly/mllggr",
     "license": "(Apache-2.0 AND MIT)",
     "activationEvents": [
         "onCommand:extension.getQuery",

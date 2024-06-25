@@ -4,7 +4,7 @@ import * as ml from 'marklogic'
 import * as fs from 'fs'
 
 export const MLDBCLIENT = 'mldbClient'
-export const MLSETTINGSFLAG = /mlxprs:settings/
+export const MLSETTINGSFLAG = /mllggr:settings/
 const SJS = 'sjs'
 export const XQY = 'xqy'
 
