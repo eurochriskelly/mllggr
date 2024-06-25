@@ -1,8 +1,8 @@
 {
     "name": "mllggr",
-    "displayName": "MarkLogic logger",
-    "description": "ml logger",
-    "version": "0.0.1",
+    "displayName": "MLLGGR: MarkLogic exttension for tailing logs across all hosts.",
+    "description": "The missing logger from MarkLogic",
+    "version": "0.0.5",
     "publisher": "marklogic",
     "engines": {
         "vscode": "^1.50.0",
@@ -14,6 +14,7 @@
         "theme": "dark"
     },
     "categories": [
+        "Log Viewer"
     ],
     "repository": "https://github.com/eurochriskelly/mllggr",
     "license": "(Apache-2.0 AND MIT)",

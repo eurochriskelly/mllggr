@@ -91,11 +91,3 @@ When this configuration is used, it will override VS Code's ML Logger client con
 
 To view logs with the ML Logger, a user will need access privileges on the log server. Ensure the log server allows the specified user to view logs in real-time.
 
-## Credit
-
-Aside from excellent development and extension support from Visual Studio Code,
-
-- Portions of Josh Johnson's [vscode-xml](https://github.com/DotJoshJohnson/vscode-xml) project are re-used for XML formatting. The MIT license and source code are kept in the `client/xmlFormatting` folder of this project.
-- Paxton Hare's [marklogic-sublime](https://github.com/paxtonhare/MarkLogic-Sublime) `xquery-ml.tmLanguage` code is used for XQuery-ML syntax and snippets, and the MarkLogic Sublime project inspired this one.
-
-
