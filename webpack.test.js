@@ -8,7 +8,4 @@ const path = require('path')
 
 module.exports = withDefaults({
     context: path.join(__dirname),
-    entry: {
-        mlDebug: './client/JSDebugger/mlDebug.ts'
-    }
 })

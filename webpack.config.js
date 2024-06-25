@@ -10,7 +10,5 @@ module.exports = withDefaults({
     context: path.join(__dirname),
     entry: {
         extension: './client/extension.ts',
-        xqyDebug: './client/XQDebugger/xqyDebug.ts',
-        jsDebug: './client/JSDebugger/mlDebug.ts'
     }
 })

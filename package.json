@@ -14,65 +14,16 @@
         "theme": "dark"
     },
     "categories": [
-        "Debuggers",
-        "Programming Languages",
-        "Snippets",
-        "Other"
     ],
     "repository": "https://github.com/eurochriskelly/mllggr",
     "license": "(Apache-2.0 AND MIT)",
     "activationEvents": [
-        "onCommand:extension.getQuery",
-        "onCommand:extension.sendXQuery",
-        "onCommand:extension.sendJSQuery",
-        "onCommand:extension.sendSql",
-        "onCommand:extension.sendSparqlQuery",
-        "onCommand:extension.showModule",
         "onCommand:extension.logs.newWindow",
-        "onDebug",
-        "onLanguage:xquery-ml",
-        "onLanguage:javascript",
-        "onLanguage:sparql"
+        "onCommand:extension.logs.reload"
     ],
     "main": "./dist/extension",
     "contributes": {
         "commands": [
-            {
-                "command": "extension.sendXQuery",
-                "title": "MarkLogic: Eval XQuery"
-            },
-            {
-                "command": "extension.sendJSQuery",
-                "title": "MarkLogic: Eval JS"
-            },
-            {
-                "command": "extension.sendSqlQuery",
-                "title": "MarkLogic: Eval SQL"
-            },
-            {
-                "command": "extension.sendSparqlQuery",
-                "title": "MarkLogic: Eval SPARQL"
-            },
-            {
-                "command": "extension.connectServer",
-                "title": "MarkLogic: Connect JavaScript Debug Server"
-            },
-            {
-                "command": "extension.disconnectServer",
-                "title": "MarkLogic: Disconnect JavaScript Debug Server"
-            },
-            {
-                "command": "extension.connectXqyServer",
-                "title": "MarkLogic: Connect XQuery Debug Server"
-            },
-            {
-                "command": "extension.disconnectXqyServer",
-                "title": "MarkLogic: Disconnect XQuery Debug Server"
-            },
-            {
-                "command": "extension.showModule",
-                "title": "MarkLogic: Show module"
-            },
             {
                 "command": "extension.logs.newWindow",
                 "title": "MarkLogic: Open log viewer"
@@ -92,204 +43,6 @@
             {
                 "command": "extension.logs.stopTail",
                 "title": "MarkLogic: Stop tailing logs"
-            }
-        ],
-        "breakpoints": [
-            {
-                "language": "javascript"
-            },
-            {
-                "language": "xquery-ml"
-            }
-        ],
-        "debuggers": [
-            {
-                "type": "ml-jsdebugger",
-                "label": "MarkLogic JS Debugger",
-                "program": "./dist/jsDebug.js",
-                "runtime": "node",
-                "configurationAttributes": {
-                    "launch": {
-                        "required": [],
-                        "properties": {
-                            "path": {
-                                "type": "string",
-                                "description": "DEPRECATED: please use 'program'. 'path' will be removed in a future version",
-                                "default": ""
-                            },
-                            "program": {
-                                "type": "string",
-                                "description": "path to main module to launch in debugging mode.",
-                                "default": ""
-                            },
-                            "txnId": {
-                                "type": "string",
-                                "description": "Transaction ID to use with launch.",
-                                "default": ""
-                            },
-                            "root": {
-                                "type": "string",
-                                "description": "local path corresponding to the root directory for the modules deployed on MarkLogic.",
-                                "default": "${workspaceFolder}/src/main/ml-modules/root"
-                            }
-                        }
-                    },
-                    "attach": {
-                        "required": [
-                            "root",
-                            "debugServerName"
-                        ],
-                        "properties": {
-                            "path": {
-                                "type": "string",
-                                "description": "DEPRECATED: please use 'root'. 'path' will be removed in a future version.",
-                                "default": ""
-                            },
-                            "root": {
-                                "type": "string",
-                                "description": "local path corresponding to the root directory for the modules deployed on MarkLogic.",
-                                "default": "${workspaceFolder}/src/main/ml-modules/root"
-                            },
-                            "debugServerName": {
-                                "type": "string",
-                                "description": "Debug server name, please connect the server before use",
-                                "default": ""
-                            },
-                            "rid": {
-                                "type": "string",
-                                "description": "Request Id",
-                                "default": ""
-                            }
-                        }
-                    }
-                },
-                "initialConfigurations": [
-                    {
-                        "type": "ml-jsdebugger",
-                        "request": "launch",
-                        "name": "Evaluate Current JavaScript Module",
-                        "root": "${workspaceFolder}/src/main/ml-modules/roote"
-                    },
-                    {
-                        "type": "ml-jsdebugger",
-                        "request": "attach",
-                        "name": "Attach to Remote JavaScript Request",
-                        "path": "${workspaceFolder}/src/main/ml-modules/root",
-                        "debugServerName": "Enter debug server name"
-                    }
-                ],
-                "configurationSnippets": [
-                    {
-                        "label": "MarkLogic: Evaluate Current JavaScript Module",
-                        "description": "A new configuration for 'debugging' a user selected javascript file.",
-                        "body": {
-                            "type": "ml-jsdebugger",
-                            "request": "launch",
-                            "name": "Evaluate Current JavaScript Module",
-                            "root": "^\"\\${workspaceFolder}/src/main/ml-modules/root\""
-                        }
-                    },
-                    {
-                        "label": "MarkLogic: Attach to Remote JavaScript Request",
-                        "description": "A new configuration for 'debugging' a user selected javascript file.",
-                        "body": {
-                            "type": "ml-jsdebugger",
-                            "request": "attach",
-                            "name": "Attach to Remote JavaScript Request",
-                            "root": "^\"\\${workspaceFolder}/src/main/ml-modules/root\"",
-                            "debugServerName": "data-hub-STAGING"
-                        }
-                    }
-                ],
-                "variables": {}
-            },
-            {
-                "type": "xquery-ml",
-                "label": "MarkLogic XQY Debugger",
-                "program": "./dist/xqyDebug.js",
-                "runtime": "node",
-                "configurationAttributes": {
-                    "launch": {
-                        "required": [
-                            "root"
-                        ],
-                        "properties": {
-                            "program": {
-                                "type": "string",
-                                "description": "Absolute path to the local XQuery source code to evaluate in debug mode. If left blank, the current open buffer will be used.",
-                                "default": ""
-                            },
-                            "root": {
-                                "type": "string",
-                                "description": "local path corresponding to the root directory for the modules deployed on MarkLogic.",
-                                "default": "${workspaceFolder}/src/main/ml-modules/root"
-                            }
-                        }
-                    },
-                    "attach": {
-                        "properties": {
-                            "required": [
-                                "root"
-                            ],
-                            "program": {
-                                "type": "string",
-                                "description": "In attach mode, this will be the full path to a local source file representing the eval'd ad-hoc query (if present) in MarkLogic.",
-                                "default": ""
-                            },
-                            "root": {
-                                "type": "string",
-                                "description": "local path corresponding to the root directory for the modules deployed on MarkLogic.",
-                                "default": "${workspaceFolder}/src/main/ml-modules/root"
-                            },
-                            "rid": {
-                                "type": "string",
-                                "description": "Request Id to attach to. You will be prompted to choose one if none is provided.",
-                                "default": ""
-                            }
-                        }
-                    }
-                },
-                "initialConfigurations": [
-                    {
-                        "type": "xquery-ml",
-                        "request": "launch",
-                        "name": "Ask for file name: ",
-                        "program": "",
-                        "stopOnEntry": true
-                    },
-                    {
-                        "type": "xquery-ml",
-                        "request": "attach",
-                        "name": "Ask for file name: ",
-                        "stopOnEntry": true
-                    }
-                ],
-                "configurationSnippets": [
-                    {
-                        "label": "MarkLogic: Evaluate Current XQuery Module",
-                        "description": "Launch an XQuery request in debug mode",
-                        "body": {
-                            "type": "xquery-ml",
-                            "request": "launch",
-                            "name": "Launch XQuery Debug Request",
-                            "root": "^\"\\${workspaceFolder}/src/main/ml-modules/root\""
-                        }
-                    },
-                    {
-                        "label": "MarkLogic: Attach to Remote XQuery Request",
-                        "description": "Attach to a request to debug on a connected app server",
-                        "body": {
-                            "type": "xquery-ml",
-                            "request": "attach",
-                            "name": "Attach XQuery Debug Request",
-                            "root": "^\"\\${workspaceFolder}/src/main/ml-modules/root\""
-                        }
-                    }
-                ],
-                "variables": {
-                    "AskForUsername": "extension.mock-debug.getUsername",
-                    "AskForPassword": "extension.mock-debug.getPassword"
-                }
             }
         ],
         "configuration": {
@@ -395,47 +148,6 @@
                 }
             }
         },
-        "languages": [
-            {
-                "id": "xquery-ml",
-                "aliases": [
-                    "XQuery (ML)",
-                    "xquery-ml"
-                ],
-                "extensions": [
-                    ".xq",
-                    ".xql",
-                    ".xqm",
-                    ".xqy",
-                    ".xquery"
-                ],
-                "configuration": "./xquery-ml.configuration.json"
-            },
-            {
-                "id": "log-ml",
-                "aliases": [
-                    "Log (ML)",
-                    "log-ml"
-                ],
-                "extensions": [
-                    ".mllog"
-                ],
-                "firstLine": "^###MarkLogic (Error|Access|Request)Log###$"
-            }
-        ],
-        "grammars": [
-            {
-                "language": "xquery-ml",
-                "scopeName": "source.xquery-ml",
-                "path": "./syntaxes/xquery-ml.tmLanguage"
-            }
-        ],
-        "snippets": [
-            {
-                "language": "xquery-ml",
-                "path": "./snippets/snippets.json"
-            }
-        ],
         "menus": {
             "editor/title": [
                 {
@@ -480,16 +192,12 @@
         }
     },
     "scripts": {
-        "copy-files": "npm run copy-files --prefix server",
-        "clean": "rm -rf dist out server/dist server/out",
-        "vscode:prepublish": "./node_modules/.bin/webpack --mode production && ./node_modules/.bin/webpack --mode production --config ./server/webpack.config.js",
-        "compile": "npm run clean && ./node_modules/webpack/bin/webpack.js --mode none && ./node_modules/webpack/bin/webpack.js --mode none --config ./server/webpack.config.js",
-        "buildVsix": "vsce package",
+        "vscode:prepublish": "./node_modules/.bin/webpack --mode production && ./node_modules/.bin/webpack --mode production",
+        "compile": "./node_modules/webpack/bin/webpack.js --mode none && ./node_modules/webpack/bin/webpack.js --mode none",
+        "build": "npm run compile && vsce package",
         "pretest": "rm -rf dist && tsc -p tsconfig.json && ./node_modules/webpack/bin/webpack.js --mode development --config webpack.test.js",
-        "pretest-server": "tsc -p server/tsconfig.json && npm run copy-files",
-        "predebug": "npm run clean && npm run copy-files --prefix server && tsc -b server && tsc -b -w .",
         "test": "node client/out/test/runTest.js --full-trace",
-        "watch": "./node_modules/webpack/bin/webpack.js --mode none --watch & ./node_modules/webpack/bin/webpack.js --mode none --watch --config ./server/webpack.config.js"
+        "watch": "./node_modules/webpack/bin/webpack.js --mode none --watch & ./node_modules/webpack/bin/webpack.js --mode none --watch"
     },
     "devDependencies": {
         "@types/esprima": "^4.0.2",
