@@ -2,7 +2,7 @@
     "name": "mllggr",
     "displayName": "MLLGGR: MarkLogic exttension for tailing logs across all hosts.",
     "description": "The missing logger from MarkLogic",
-    "version": "0.0.5",
+    "version": "0.0.6",
     "publisher": "marklogic",
     "engines": {
         "vscode": "^1.50.0",
@@ -18,32 +18,28 @@
     ],
     "repository": "https://github.com/eurochriskelly/mllggr",
     "license": "(Apache-2.0 AND MIT)",
-    "activationEvents": [
-        "onCommand:extension.logs.newWindow",
-        "onCommand:extension.logs.reload"
-    ],
     "main": "./dist/extension",
     "contributes": {
         "commands": [
             {
                 "command": "extension.logs.newWindow",
-                "title": "MarkLogic: Open log viewer"
+                "title": "ML Logger: Open log viewer"
             },
             {
                 "command": "extension.logs.reload",
-                "title": "MarkLogic: Reload logs"
+                "title": "ML Logger: Reload logs"
             },
             {
                 "command": "extension.logs.update",
-                "title": "MarkLogic: Update logs"
+                "title": "ML Logger: Update logs"
             },
             {
                 "command": "extension.logs.startTail",
-                "title": "MarkLogic: Start tailing logs"
+                "title": "ML Logger: Start tailing logs"
             },
             {
                 "command": "extension.logs.stopTail",
-                "title": "MarkLogic: Stop tailing logs"
+                "title": "ML Logger: Stop tailing logs"
             }
         ],
         "configuration": {
@@ -92,7 +88,7 @@
                 },
                 "marklogic.ssl": {
                     "type": "boolean",
-                    "default": false,
+                    "default": true,
                     "description": "whether to use ssl for the http connection"
                 },
                 "marklogic.pathToCa": {
