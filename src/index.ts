@@ -1,11 +1,9 @@
-import { mkdir, appendFile, writeFileSync, readFileSync, existsSync } from 'fs';
-import { promisify } from 'util';
-import { resolve } from 'path';
-import { MarklogicClient, MlClientParameters, buildNewClient } from './marklogicClient';
+import { writeFileSync, readFileSync, existsSync } from 'fs';
+import { MarklogicClient } from './marklogicClient';
+import { followQuery, changeDataQuery } from './eval-strings';
+import { createClientConnection } from './connection';
+import { mkdirAsync, appendLinesToFile, createFolderRecursively, dayFolder, downloadAllLogs, dateYYYYMMDD } from './utils';
 
-const mkdirAsync = promisify(mkdir);
-const appendFileAsync = promisify(appendFile);
-const dateYYYYMMDD = new Date().toISOString().split('T')[0];
 const CURSOR_CONFIG = `./mllogs/cursors-${dateYYYYMMDD}.json`;
 const POLL_TIME = 1000 * 5; // 5 seconds
 
@@ -79,112 +77,9 @@ async function pullLogs(client: MarklogicClient, start: number = 1) {
 }
 
 async function startPullingLogs() {
-    console.log('--------------------')
-    const params: MlClientParameters = {
-        host: 'localhost',
-        user: 'admin',
-        pwd: 'admin',
-        port: 8000,
-        contentDb: 'Documents',
-        modulesDb: 'Modules',
-        authType: 'digest',
-        ssl: false,
-        pathToCa: '',
-        rejectUnauthorized: true
-    };
-
-    const client = buildNewClient(params);
-    pullLogs(client);
+    await pullLogs(createClientConnection());
 }
 
 startPullingLogs();
 
-function followQuery(follow: boolean) {
-
-  return `
-    const data = []
-    const follow = ${follow ? 'true' : 'false'}
-    const rotated = /_\\d+\\.txt$/
-    Array.from(xdmp.hosts()).forEach(host => {
-      const directory = xdmp.dataDirectory(host) + '/Logs/';
-      const files = xdmp.filesystemDirectory(directory)
-          .filter(file => file.contentLength)
-          .filter(file => follow ? !rotated.test(file.filename) : true)
-          .map(x => {
-            // send only what client needs
-            const obj = {
-              host,
-              filename: x.filename,
-              cursor: x.contentLength,
-            }
-            return obj
-          })
-        JSON.stringify(files)
-      files.forEach(f => data.push(f))
-    })
-    JSON.stringify(data)
-  `;
-}
-
-function changeDataQuery({
-  host, filename, cursor, size
-}) {
-  return `
-    const directory = xdmp.dataDirectory("${host}") + '/Logs/';
-    const name = xdmp.hostName("${host}")
-    xdmp.filesystemFile("file://" + name + "/" + directory + "/${filename}").toString().substring(${cursor})
-  `
-    // xdmp.externalBinary("file://" + name + "/" + directory + "/${filename}", ${cursor + 1}, ${size}).toString()
-}
-
-function freshLogFile({
-  host, filename
-}) {
-  return `
-    const directory = xdmp.dataDirectory("${host}") + '/Logs/';
-    const name = xdmp.hostName("${host}")
-    xdmp.filesystemFile("file://" + name + "/" + directory + "/${filename}").toString()
-  `
-// xdmp.externalBinary("file://" + name + "/" + directory + "/${filename}").toString()
-}
-
-async function createFolderRecursively(path: string): Promise<void> {
-    try {
-        await mkdirAsync(path, { recursive: true });
-    } catch (error) {
-        console.error(`Error creating directory ${path}:`, error);
-    }
-}
-
-async function appendLinesToFile(filePath: string, lines: string[]): Promise<void> {
-    try {
-        const data = lines.join('\n') + '\n';
-        await appendFileAsync(filePath, data, { flag: 'a' });
-    } catch (error) {
-        console.error(`Error appending lines to file ${filePath}:`, error);
-    }
-}
-
-function dayFolder(host: string) {
-    return `./mllogs/${host}/${dateYYYYMMDD}`;
-}
-
-async function downloadFile(client: any, logInfo: any): Promise<void> {
-    const logPath = `./mllogs/${logInfo.host}/${dateYYYYMMDD}`;
-    if (!existsSync(logPath)) {
-        await mkdirAsync(logPath, { recursive: true });
-    }
-    const fullPath = resolve(logPath, `${logInfo.filename}`);
-    console.log(`Downloading log file [${fullPath}]`);
-    const result = await client.mldbClient.eval(freshLogFile(logInfo)).result();
-    const lines = result.shift().value.split('\n')
-    console.log(`Writing log file [${fullPath}]`)
-    writeFileSync(fullPath, lines.join('\n'))
-    return
-}
-
-async function downloadAllLogs(client: any, list: string[]): Promise<void> {
-  const downloadPromises = list.map(info => downloadFile(client, info));
-  await Promise.all(downloadPromises);
-}
 
