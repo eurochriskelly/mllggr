@@ -5,7 +5,6 @@ import * as fs from 'fs'
 
 export const MLDBCLIENT = 'mldbClient'
 export const MLSETTINGSFLAG = /mllggr:settings/
-const SJS = 'sjs'
 export const XQY = 'xqy'
 
 export class MlClientParameters {
@@ -104,6 +103,10 @@ export class MarklogicClient {
     hasSameParamsAs(newParams: MlClientParameters): boolean {
         return this.params.sameAs(newParams)
     }
+
+    release(): void {
+        this.mldbClient.release();
+    }
 }
 
 export function buildNewClient(params: MlClientParameters): MarklogicClient {
@@ -125,7 +128,7 @@ export function parseXQueryForOverrides(queryText: string): Record<string, any> 
 
     if (startsWithComment && overridesFlagPresent) {
         const overridePayload: string = queryText.trim()
-            .match(/\(:.+:\)/sg)[0]       // take the first comment (greedy, multiline)
+            .match(/\(:.+:\)/g)[0]       // take the first comment (greedy, multiline)
             .split(/:\)/)[0]              // end at the comment close (un-greedy the match)
             .replace(MLSETTINGSFLAG, '')  // get rid of the flag
             .replace(/^\(:/, '')          // get rid of the comment opener
