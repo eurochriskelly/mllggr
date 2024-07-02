@@ -7,6 +7,7 @@ const mkdirAsync = promisify(mkdir);
 const appendFileAsync = promisify(appendFile);
 const dateYYYYMMDD = new Date().toISOString().split('T')[0];
 const CURSOR_CONFIG = `./mllogs/cursors-${dateYYYYMMDD}.json`;
+const POLL_TIME = 1000 * 5; // 5 seconds
 
 let state = [];
 async function pullLogs(client: MarklogicClient, start: number = 1) {
@@ -20,7 +21,6 @@ async function pullLogs(client: MarklogicClient, start: number = 1) {
                 if (!state.length) {
                     // first check in the root folder for a cursors-YYYYMMDD.json
                     if (existsSync(CURSOR_CONFIG)) {
-                        // if it exists, load it
                         console.log('Reading current state from file ...');
                         state = JSON.parse(readFileSync(`./mllogs/cursors-${dateYYYYMMDD}.json`).toString());
                     } else {
@@ -64,7 +64,7 @@ async function pullLogs(client: MarklogicClient, start: number = 1) {
                 }
             })
             .on('end', async () => {
-                await new Promise(resolve => setTimeout(resolve, 2000));
+                await new Promise(resolve => setTimeout(resolve, POLL_TIME));
                 pullLogs(client, start);
             })
             .on('error', (err) => {
@@ -94,7 +94,6 @@ async function startPullingLogs() {
     };
 
     const client = buildNewClient(params);
-
     pullLogs(client);
 }
 
@@ -133,8 +132,9 @@ function changeDataQuery({
   return `
     const directory = xdmp.dataDirectory("${host}") + '/Logs/';
     const name = xdmp.hostName("${host}")
-    xdmp.externalBinary("file://" + name + "/" + directory + "/${filename}", ${cursor + 1}, ${size}).toString()
+    xdmp.filesystemFile("file://" + name + "/" + directory + "/${filename}").toString().substring(${cursor})
   `
+    // xdmp.externalBinary("file://" + name + "/" + directory + "/${filename}", ${cursor + 1}, ${size}).toString()
 }
 
 function freshLogFile({
@@ -143,8 +143,9 @@ function freshLogFile({
   return `
     const directory = xdmp.dataDirectory("${host}") + '/Logs/';
     const name = xdmp.hostName("${host}")
-    xdmp.externalBinary("file://" + name + "/" + directory + "/${filename}").toString()
+    xdmp.filesystemFile("file://" + name + "/" + directory + "/${filename}").toString()
   `
+// xdmp.externalBinary("file://" + name + "/" + directory + "/${filename}").toString()
 }
 
 async function createFolderRecursively(path: string): Promise<void> {
