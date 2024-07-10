@@ -52,6 +52,7 @@ async function pullLogs(client: MarklogicClient, start: number = 1) {
                     state = info
                     changed.forEach(async changedLog => {
                         const res: any = await client.mldbClient.eval(changeDataQuery(changedLog)).result();
+                        if (!res[0].value) return
                         const newLines = res?.shift().value.split('\n').filter((x:string) => x.trim()); // don't want blanks
                         const { host, filename } = changedLog;
                         await createFolderRecursively(dayFolder(host));

@@ -1,11 +1,11 @@
 import { MlClientParameters, buildNewClient } from './marklogicClient';
 
 export const createClientConnection = () => {
-    const params: MlClientParameters = {
+    const params: any = {
         host: process.env['ML_HOST'] || 'localhost',
         user: process.env['ML_USER'] || 'admin',
         pwd: process.env['ML_PASS'] || 'admin',
-        port: process.env['ML_PORT'] || '8000',
+        port: +(process.env['ML_PORT'] || '9000'),
         contentDb: process.env['ML_DATABASE'] || 'Documents',
         modulesDb: process.env['ML_MODULES_DB'] || 'Modules',
         authType: 'digest',

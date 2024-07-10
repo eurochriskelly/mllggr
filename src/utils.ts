@@ -36,7 +36,8 @@ export async function downloadFile(client: any, logInfo: any): Promise<void> {
     const fullPath = resolve(logPath, `${logInfo.filename}`);
     console.log(`Downloading log file [${fullPath}]`);
     const result = await client.mldbClient.eval(freshLogFile(logInfo)).result();
-    const lines = result.shift().value.split('\n')
+    if (!result[0].value) return
+    const lines = result.shift().value?.split('\n')
     console.log(`Writing log file [${fullPath}]`)
     writeFileSync(fullPath, lines.join('\n'))
     return
